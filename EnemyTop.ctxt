@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=EnemyTop
+comment0.text=\n\ A\ RedEnemy\ paddle\ at\ the\ ceiling\ that\ moves\ towards\ the\ ball.\n\ It\ stops\ moving\ when\ it\ hits\ the\ ball\ and\ waits\ for\ the\ next\ player\ return.\n
+comment1.params=width\ height
+comment1.target=EnemyTop(int,\ int)
+comment1.text=\n\ Constructs\ a\ new\ RedEnemy\ paddle\ with\ the\ given\ dimensions.\n
+comment2.params=
+comment2.target=void\ createImage()
+comment2.text=\n\ Creates\ and\ sets\ an\ image\ for\ the\ paddle,\ the\ image\ will\ have\ the\ same\ dimensions\ and\ be\ red.\n
+comment3.params=
+comment3.target=void\ act()
+comment3.text=\n\ Act\ -\ do\ whatever\ the\ RedEnemy\ wants\ to\ do.\n\ It\ will\ move\ towards\ the\ ball\ if\ it\ hasn't\ hit\ it\ yet.\n
+comment4.params=
+comment4.target=void\ moveTowardsBall()
+comment4.text=\n\ Moves\ the\ paddle\ horizontally\ towards\ the\ ball's\ X\ position.\n
+comment5.params=
+comment5.target=void\ reset()
+comment5.text=\n\ Resets\ the\ paddle\ movement,\ allowing\ it\ to\ track\ the\ ball\ again\ after\ the\ ball\ is\ returned.\n
+numComments=6
