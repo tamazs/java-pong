@@ -37,15 +37,15 @@ public class PingWorld extends World
             
             // Add the level counter at the top-left corner of the world
             levelCounter = new Counter("Level: ");
-            addObject(levelCounter, 80, 30);
+            addObject(levelCounter, 50, 30);
             levelCounter.setValue(level);
             
             // Add score counters
             playerScoreCounter = new Counter("");  // Display only the number
-            addObject(playerScoreCounter, WORLD_WIDTH / 2, 680);  // Position for player score
+            addObject(playerScoreCounter, 20, WORLD_HEIGHT / 2 + 30);  // Position for player score
 
             enemyScoreCounter = new Counter("");  // Display only the number
-            addObject(enemyScoreCounter, WORLD_WIDTH / 2, 20);  // Position for enemy score
+            addObject(enemyScoreCounter, 20, WORLD_HEIGHT / 2 - 30);  // Position for enemy score
 
             updateScores();  // Initially update the scores on the screen
         }
@@ -64,6 +64,11 @@ public class PingWorld extends World
         background.setColor(Color.BLACK);  // Set background color to black
         background.fill();  // Fill the background with black
         setBackground(background);  // Set the background
+        background.setColor(Color.WHITE);
+        background.drawRect(2, 2, WORLD_WIDTH-4, WORLD_HEIGHT-4);
+        for (int i = 0; i < 40; i++) {
+            background.fillRect(20*i+2, WORLD_HEIGHT/2, 10, 2);
+        }
     }
     
     /**
