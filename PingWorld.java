@@ -13,7 +13,7 @@ public class PingWorld extends World
     
     private Counter levelCounter;
     private int level = 1;
-    private int ceilingHitCount = 0;
+    private int enemyHitCount = 0;
     private Ball ball;
     private EnemyTop enemyTop;
     private int playerScore = 0;
@@ -114,11 +114,11 @@ public class PingWorld extends World
     /**
      * Increments the ceiling hit count and checks if the level should increase.
      */
-    public void ceilingHit()
+    public void enemyHit()
     {
-        ceilingHitCount++;
+        enemyHitCount++;
         
-        if (ceilingHitCount >= 10)
+        if (enemyHitCount >= 10)
         {
             levelUp();
         }
@@ -130,7 +130,7 @@ public class PingWorld extends World
     private void levelUp()
     {
         level++;
-        ceilingHitCount = 0;
+        enemyHitCount = 0;
         levelCounter.setValue(level);  // Update the level counter display
         
         // Increase ball speed
@@ -151,7 +151,7 @@ public class PingWorld extends World
     public void resetGame()
     {
         level = 1;
-        ceilingHitCount = 0;
+        enemyHitCount = 0;
         levelCounter.setValue(level);  // Reset the level counter display
         
         // Optionally, reset the ball speed

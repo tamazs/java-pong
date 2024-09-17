@@ -116,7 +116,7 @@ public class Ball extends SmoothMover
                 
                 // Notify the world that the ball has hit the ceiling
                 PingWorld world = (PingWorld) getWorld();
-                world.ceilingHit();
+                
                 world.playerScored();
             }
         }
@@ -190,6 +190,10 @@ public class Ball extends SmoothMover
             {
                 // Make the ball bounce off the RedEnemy paddle
                 revertVertically();
+                
+                PingWorld world = (PingWorld) getWorld();
+                
+                world.enemyHit();
             }
         }
     }
