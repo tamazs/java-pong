@@ -84,8 +84,33 @@ public class Paddle extends Actor
     private void createImage()
     {
         GreenfootImage image = new GreenfootImage(width, height);
-        image.setColor(Color.WHITE);
-        image.fill();
-        setImage(image);
+
+        // Use a brighter base color for visibility on a black background
+        Color baseColor = new Color(0, 255, 0);  // Bright green
+        Color shadeColor = baseColor.darker();   // Slightly darker green for shading
+
+        // Fill the paddle with a gradient-like effect (3D illusion)
+        for (int y = 0; y < height; y++) {
+            // Interpolate between base color and shade color
+            int red = (int) (baseColor.getRed() * (1 - y / (double)height) + shadeColor.getRed() * (y / (double)height));
+            int green = (int) (baseColor.getGreen() * (1 - y / (double)height) + shadeColor.getGreen() * (y / (double)height));
+            int blue = (int) (baseColor.getBlue() * (1 - y / (double)height) + shadeColor.getBlue() * (y / (double)height));
+
+            Color gradientColor = new Color(red, green, blue);
+            image.setColor(gradientColor);
+            image.drawLine(0, y, width - 1, y);  // Draw each line with gradient effect
+        }
+
+        // Modify the border color to white or light gray to stand out on black
+        image.setColor(Color.WHITE);  // White border
+        image.drawRect(0, 0, width - 1, height - 1);  // Draw border around the paddle
+
+        // Add a bright highlight at the top to create a shiny effect
+        image.setColor(Color.LIGHT_GRAY);  // Light gray for the highlight
+        image.drawLine(0, 1, width - 1, 1);  // Thin line at the top for highlight
+
+        setImage(image);  // Apply the image to the paddle
     }
+
+
 }

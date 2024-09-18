@@ -12,6 +12,7 @@ public class Ball extends SmoothMover
     private static final int BOUNCE_DEVIANCE_MAX = 5;
     private static final int STARTING_ANGLE_WIDTH = 90;
     private static final int DELAY_TIME = 100;
+    private static int players = 1;
 
     private int speed;
     private boolean hasBouncedHorizontally;
@@ -25,18 +26,48 @@ public class Ball extends SmoothMover
     {
         createImage();
         init();
+        
     }
 
     /**
      * Creates and sets an image of a white ball to this actor.
      */
     private void createImage()
-    {
-        GreenfootImage ballImage = new GreenfootImage(BALL_SIZE,BALL_SIZE);
-        ballImage.setColor(Color.WHITE);
-        ballImage.fillOval(0, 0, BALL_SIZE, BALL_SIZE);
-        setImage(ballImage);
+{
+    GreenfootImage ballImage = new GreenfootImage(BALL_SIZE, BALL_SIZE);
+
+    // Base color for the ball
+    Color baseColor = Color.WHITE;
+    
+    // Darker color for shading
+    Color shadeColor = new Color(200, 200, 200);  // Light gray for shading
+
+    // Draw the shaded ball
+    for (int y = 0; y < BALL_SIZE; y++) {
+        for (int x = 0; x < BALL_SIZE; x++) {
+            // Calculate the distance from the center of the ball
+            int dx = x - BALL_SIZE / 2;
+            int dy = y - BALL_SIZE / 2;
+            double distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // If the point is within the ball, apply shading
+            if (distance <= BALL_SIZE / 2) {
+                // Calculate the shading effect based on distance from the center
+                double shadingFactor = distance / (BALL_SIZE / 2);
+                int red = (int) (baseColor.getRed() * (1 - shadingFactor) + shadeColor.getRed() * shadingFactor);
+                int green = (int) (baseColor.getGreen() * (1 - shadingFactor) + shadeColor.getGreen() * shadingFactor);
+                int blue = (int) (baseColor.getBlue() * (1 - shadingFactor) + shadeColor.getBlue() * shadingFactor);
+
+                Color pixelColor = new Color(red, green, blue);
+                ballImage.setColorAt(x, y, pixelColor);  // Set the pixel color with shading
+            }
+        }
     }
+
+    // Set the shaded ball image
+    setImage(ballImage);
+}
+
 
     /**
      * Act - do whatever the Ball wants to do. This method is called whenever
@@ -50,6 +81,11 @@ public class Ball extends SmoothMover
         }
         else
         {
+            //1 PLAYER - 2 PLAYERS
+            PingWorld world = (PingWorld)getWorld();
+            players = world.getHowManyPlayers();
+            
+            
             move(speed);
             checkBounceOffWalls();
             checkBounceOffCeiling();
@@ -116,7 +152,8 @@ public class Ball extends SmoothMover
                 
                 // Notify the world that the ball has hit the ceiling
                 PingWorld world = (PingWorld) getWorld();
-                
+                world.ceilingHit();
+                //world.PaddleHit();
                 world.playerScored();
             }
         }
@@ -147,8 +184,8 @@ public class Ball extends SmoothMover
             {
                 // Make the ball bounce upwards off the paddle
                 revertVertically();
-                
                 PingWorld world = (PingWorld) getWorld();
+                world.PaddleHit();
                 world.resetEnemyTop();
                 
             }
@@ -165,7 +202,7 @@ public class Ball extends SmoothMover
         if (enemy != null)
         {
             // Check if the ball's Y coordinate is higher than the enemy's
-            if (getRotation() > 180 && getRotation() < 360)
+            if (getRotation() > 180 && getRotation() < 360 && players == 1)
             {
                 if (!hasBouncedVertically)
                 {
@@ -173,6 +210,13 @@ public class Ball extends SmoothMover
                     revertVertically();
                 }
             }
+            
+            else if (players == 2)
+                if (!hasBouncedVertically)
+                {
+                    // Make the ball bounce off the enemy
+                    revertVertically();
+                }
             // If the ball is coming from below (from the ceiling), it should pass through
         }
     }
@@ -190,10 +234,6 @@ public class Ball extends SmoothMover
             {
                 // Make the ball bounce off the RedEnemy paddle
                 revertVertically();
-                
-                PingWorld world = (PingWorld) getWorld();
-                
-                world.enemyHit();
             }
         }
     }
@@ -202,6 +242,8 @@ public class Ball extends SmoothMover
      * Check to see if the ball should be restarted.
      * If touching the floor the ball is restarted in initial position and speed.
      */
+    
+    //1 PLAYER - 2 PLAYERS
     private void checkRestart()
     {
         if (isTouchingFloor())
@@ -212,6 +254,15 @@ public class Ball extends SmoothMover
             
             init();  // Reinitialize the ball’s settings (reset speed, etc.)
             setLocation(getWorld().getWidth() / 2, getWorld().getHeight() / 2);  // Reset ball position
+        }
+        
+        else if (isTouchingCeiling() && players == 2) {
+            PingWorld world = (PingWorld) getWorld();
+            world.ceilingHit();
+            world.resetGame();  // Call the resetGame method in PingWorld to reset the level
+            
+            init();  // Reinitialize the ball’s settings (reset speed, etc.)
+            setLocation(getWorld().getWidth() / 2, getWorld().getHeight() / 2); 
         }
     }
 

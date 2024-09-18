@@ -13,11 +13,13 @@ public class PingWorld extends World
     
     private Counter levelCounter;
     private int level = 1;
-    private int enemyHitCount = 0;
+    private int ceilingHitCount = 0;
     private Ball ball;
     private EnemyTop enemyTop;
     private int playerScore = 0;
     private int enemyScore = 0;
+    private int howManyPlayers = 1;
+    private Paddle paddle = new Paddle(100, 20);
 
     // Score counters for display
     private Counter playerScoreCounter;
@@ -90,6 +92,12 @@ public class PingWorld extends World
     public void playerScored()
     {
         playerScore++;
+        if(playerScore == 10){
+            if (howManyPlayers == 1)
+                Greenfoot.setWorld(new Gameover("You won!"));
+            else
+                Greenfoot.setWorld(new Gameover("Player1 won!"));
+        }
         updateScores();  // Update the score display on the screen
     }
 
@@ -99,6 +107,13 @@ public class PingWorld extends World
     public void enemyScored()
     {
         enemyScore++;
+        if(enemyScore == 10){
+            if (howManyPlayers == 1)
+                Greenfoot.setWorld(new Gameover("Game over!"));
+            else
+                Greenfoot.setWorld(new Gameover("Player2 won!"));
+        }
+        
         updateScores();  // Update the score display on the screen
     }
 
@@ -107,6 +122,7 @@ public class PingWorld extends World
      */
     private void updateScores()
     {
+        
         playerScoreCounter.setValue(playerScore);
         enemyScoreCounter.setValue(enemyScore);
     }
@@ -114,11 +130,20 @@ public class PingWorld extends World
     /**
      * Increments the ceiling hit count and checks if the level should increase.
      */
-    public void enemyHit()
+    public void ceilingHit()
     {
-        enemyHitCount++;
+        ceilingHitCount++;
         
-        if (enemyHitCount >= 10)
+        if (ceilingHitCount%10 == 0)
+        {
+            levelUp();
+        }
+    }
+    
+    public void PaddleHit() {
+        ceilingHitCount++;
+        
+        if (ceilingHitCount%10 == 0)
         {
             levelUp();
         }
@@ -130,7 +155,7 @@ public class PingWorld extends World
     private void levelUp()
     {
         level++;
-        enemyHitCount = 0;
+        //ceilingHitCount = 0;
         levelCounter.setValue(level);  // Update the level counter display
         
         // Increase ball speed
@@ -151,10 +176,18 @@ public class PingWorld extends World
     public void resetGame()
     {
         level = 1;
-        enemyHitCount = 0;
+        ceilingHitCount = 0;
         levelCounter.setValue(level);  // Reset the level counter display
         
         // Optionally, reset the ball speed
         ball.resetSpeed();
+    }
+    
+    public void setHowManyPLayers(int player) {
+        if (player > 0 && player <= 2)
+            this.howManyPlayers = player;
+    }
+    public int getHowManyPlayers() {
+        return howManyPlayers;
     }
 }
