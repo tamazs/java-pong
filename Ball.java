@@ -124,6 +124,7 @@ public class Ball extends SmoothMover
      * Check to see if the ball should bounce off one of the walls.
      * If touching one of the walls, the ball bounces off.
      */
+    
     private void checkBounceOffWalls()
     {
         if (isTouchingSides())
@@ -138,6 +139,7 @@ public class Ball extends SmoothMover
             hasBouncedHorizontally = false;
         }
     }
+    
 
     /**
      * Check to see if the ball should bounce off the ceiling.
@@ -176,21 +178,44 @@ public class Ball extends SmoothMover
      * If touching the paddle, the ball bounces off.
      */
     private void checkBounceOffPaddle()
+{
+    Paddle paddle = (Paddle) getOneIntersectingObject(Paddle.class);
+    if (paddle != null)
     {
-        Paddle paddle = (Paddle) getOneIntersectingObject(Paddle.class);
-        if (paddle != null)
+        // Get the positions of the ball and paddle
+        int ballY = getY();
+        int ballX = getX();
+        int paddleY = paddle.getY();
+        int paddleX = paddle.getX();
+        int paddleHalfWidth = paddle.getImage().getWidth() / 2;
+        int paddleHalfHeight = paddle.getImage().getHeight() / 2;
+
+        // Check if the ball is hitting the top of the paddle
+        if (ballY > paddleY - paddleHalfHeight && ballY < paddleY) 
         {
             if (!hasBouncedVertically)
             {
-                // Make the ball bounce upwards off the paddle
-                revertVertically();
+                // Calculate the deviation based on where the ball hit the paddle
+                int hitPosition = ballX - paddleX; // Negative = left side, Positive = right side
+                int maxDeviation = 45; // Maximum angle deviation (can be adjusted)
+
+                // Calculate bounce angle based on where the ball hit the paddle
+                int newAngle = 270 + (hitPosition * maxDeviation / paddleHalfWidth);
+                
+                setRotation(newAngle); // Set the new angle of the ball
+                
+                hasBouncedVertically = true;
+                
                 PingWorld world = (PingWorld) getWorld();
                 world.PaddleHit();
                 world.resetEnemyTop();
-                
             }
         }
     }
+}
+
+
+
     
     /**
      * Check if the ball should bounce off the enemy paddle.
@@ -291,7 +316,7 @@ public class Ball extends SmoothMover
         int randomness = Greenfoot.getRandomNumber(BOUNCE_DEVIANCE_MAX) - BOUNCE_DEVIANCE_MAX / 2;
         setRotation((360 - getRotation() + randomness + 360) % 360);
         hasBouncedVertically = true;
-        Greenfoot.playSound("Bell.wav");
+        //Greenfoot.playSound("Bell.wav");
     }
 
     /**

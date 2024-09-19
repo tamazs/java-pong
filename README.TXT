@@ -8,5 +8,5 @@ PROJECT TITLE: Pong
 PURPOSE OF PROJECT: School project
 VERSION or DATE: Version 0.1, date 17/09/2024
 HOW TO START THIS PROJECT: Choose number of players with UP or DOWN arrows then press ENTER
-AUTHORS:
-USER INSTRUCTIONS:
+AUTHORS: Ervin Lorand Bacsko, Laura Shpakova, Mohammad Omar Abd Al Rahem, Tamás Major 
+USER INSTRUCTIONS: After selecting whether you are playing against another person or the computer, use the left and right (A and D for second player) to move. Touching the ceiling or the floor gives a point to the players. You need 10 points to win or lose.

@@ -1,12 +1,12 @@
 #BlueJ class context
 comment0.target=Gameover
-comment0.text=\r\n\ IntroWorld\ for\ the\ Pong\ game.\r\n\ Displays\ instructions\ and\ title\ before\ starting\ the\ game.\r\n
+comment0.text=\n\ IntroWorld\ for\ the\ Pong\ game.\n\ Displays\ instructions\ and\ title\ before\ starting\ the\ game.\n
 comment1.params=text
 comment1.target=Gameover(java.lang.String)
-comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ IntroWorld.\r\n
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ IntroWorld.\n
 comment2.params=
 comment2.target=void\ prepareBackground()
-comment2.text=\r\n\ Prepares\ the\ background\ by\ setting\ a\ black\ background\ and\ adding\ white\ text.\r\n
+comment2.text=\n\ Prepares\ the\ background\ by\ setting\ a\ black\ background\ and\ adding\ white\ text.\n
 comment3.params=
 comment3.target=void\ act()
 numComments=4
